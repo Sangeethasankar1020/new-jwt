@@ -1,6 +1,8 @@
-import { createStudent ,findStudentByEmail} from '../service/StudentSevice.js';
+import { createStudent, findStudentByEmail } from '../service/StudentSevice.js';
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
+import StudentModel from '../models/StudentModel.js';
+
 
 const registerStudent = async (req, res) => {
     const { name, email, password } = req.body;
@@ -22,8 +24,8 @@ const loginStudent = async (req, res) => {
 
             if (match) {
                 // Create tokens
-                const accessToken = jwt.sign({ email: student.email }, 'jwt-access-token-secret-key', { expiresIn: '1m' });
-                const refreshToken = jwt.sign({ email: student.email }, 'jwt-refresh-token-secret-key', { expiresIn: '5m' });
+                const accessToken = jwt.sign({ email: student.email }, 'jwt-access-token-secret-key', { expiresIn: '10m' });
+                const refreshToken = jwt.sign({ email: student.email }, 'jwt-refresh-token-secret-key', { expiresIn: '20m' });
 
                 // Set cookies
                 res.cookie('accessToken', accessToken, { maxAge: 60000, httpOnly: true, secure: true, sameSite: 'strict' });
@@ -40,12 +42,18 @@ const loginStudent = async (req, res) => {
         return res.status(500).json({ error: error.message });
     }
 };
-const dashboard = (req, res) => {
-    res.json({ valid: true, message: "Authorized" });
+const dashboard = async (req, res) => {
+    try {
+        const users = await StudentModel.find({});
+        res.json({ valid: true, message: "Authorized", users });
+    } catch (error) {
+        console.error('Login error:', error.message);
+        res.status(500).json({ error: error.message });
+    }
 };
 const logoutStudent = (req, res) => {
     res.clearCookie("accessToken");
     res.clearCookie("refreshToken");
     res.json({ logout: true });
 };
-export { registerStudent, loginStudent, dashboard ,logoutStudent};
+export { registerStudent, loginStudent, dashboard, logoutStudent };

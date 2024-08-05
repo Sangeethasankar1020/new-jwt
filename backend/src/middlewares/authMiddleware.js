@@ -15,10 +15,10 @@ const verifyUser = (req, res, next) => {
             } else {
                 return res.status(403).json({ valid: false, message: "Invalid access token" });
             }
-        } else {
-            req.email = decoded.email;
-            next();
         }
+        req.email = decoded.email;
+        next();
+
     });
 };
 
@@ -32,12 +32,12 @@ const renewToken = (req, res, next) => {
     jwt.verify(refreshToken, 'jwt-refresh-token-secret-key', (err, decoded) => {
         if (err) {
             return res.status(403).json({ valid: false, message: "Invalid refresh token" });
-        } else {
-            const newAccessToken = jwt.sign({ email: decoded.email }, 'jwt-access-token-secret-key', { expiresIn: '1m' });
-            res.cookie('accessToken', newAccessToken, { maxAge: 60000, httpOnly: true, secure: true, sameSite: 'strict' });
-            req.email = decoded.email;
-            next();
         }
+        const newAccessToken = jwt.sign({ email: decoded.email }, 'jwt-access-token-secret-key', { expiresIn: '1m' });
+        res.cookie('accessToken', newAccessToken, { maxAge: 60000, httpOnly: true, secure: true, sameSite: 'strict' });
+        req.email = decoded.email;
+        next();
+
     });
 };
 export { verifyUser };

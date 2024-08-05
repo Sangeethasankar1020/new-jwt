@@ -4,15 +4,15 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import studentRoutes from './src/route/StudentRoute.js';
 // import { JsonWebTokenError } from 'jsonwebtoken';
-import {verifyUser} from "./src/middlewares/authMiddleware.js"
+// import {verifyUser} from "./src/middlewares/authMiddleware.js"
 
 const app = express();
 
 app.use(express.json());
 // to overcome cookie
 app.use(cors({
-    origin:["http://localhost:5173"],
-    credentials:true
+    origin: ["http://localhost:5173"],
+    credentials: true
 }));
 app.use(cookieParser());
 

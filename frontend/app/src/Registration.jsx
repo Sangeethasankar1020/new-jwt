@@ -70,7 +70,7 @@ const Registration = () => {
             </button>
         </form>
         <p className='text-center mt-3'>Already have an account?</p>
-        <button className='btn btn-default border w-100 bg-light rounded-0 text-decoration-none'>
+        <button onClick={() => navigate('/api/login')} className='btn btn-default border w-100 bg-light rounded-0 text-decoration-none'>
             Login
         </button>
     </div>
