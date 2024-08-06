@@ -1,32 +1,23 @@
+import "./App.css";
+import Registration from "./Registration";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Home from "./Home";
+import Login from "./Login";
+import Dashboard from "./Dashboard";
 
-import './App.css'
-import Registration from './Registration'
-import { BrowserRouter,Routes,Route,Navigate } from 'react-router-dom'
-import Home from './Home'
-import Login from './Login'
-import Dashboard from './Dashboard'
-import Cookies from 'js-cookie';
+import React from "react";
 
-
-function App() {
-  const isAuthenticated = () => {
-    const token = Cookies.get('accessToken');
-    console.log('Token:', token);
-  return token;
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<Registration />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />,
+      </Routes>
+    </BrowserRouter>
+  );
 };
 
-return (
-    <>
-        <BrowserRouter>
-            <Routes>
-                <Route path='/' element={<Home />} />
-                <Route path='/api/register' element={<Registration />} />
-                <Route path='/api/login' element={<Login />} />
-                <Route path='/api/dashboard' element={isAuthenticated() ? <Dashboard /> : <Navigate to="/api/dashboard" />} />
-            </Routes>
-        </BrowserRouter>
-    </>
-  )
-}
-
-export default App
+export default App;
