@@ -36,13 +36,13 @@ const loginStudent = async (req, res) => {
 
         // Set cookies
         res.cookie("accessToken", accessToken, {
-          maxAge: 60000,
+          maxAge: 1 * 60 * 1000, // 1 min
           httpOnly: true,
           secure: true,
           sameSite: "strict",
         });
         res.cookie("refreshToken", refreshToken, {
-          maxAge: 300000,
+          maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
           httpOnly: true,
           secure: true,
           sameSite: "strict",
